@@ -1,15 +1,15 @@
 ---
 const projects = [
   {
-    name: "Chess rating conversions via linear regression models",
+    name: "Converting chess ratings between different systems",
     url: "https://chessratings.org/",
-    description: "A comprehensive tool for converting chess ratings between different rating systems using statistical linear regression models.",
+    description: "Chessratings.org allows the conversion of chess ratings between different systems. This is achieved using custom built linear regression models. A complete write-up of the methods used is included, which I believe contributes to user confidence rather than simply providing a black box.",
     color: "var(--ctp-lavender)",
   },
   {
     name: "Tracking the purity of illicit drug markets",
     url: "https://drugstats.net/",
-    description: "Data analysis and visualization of illicit drug market trends and purity levels across different regions.",
+    description: "An aggregation of test results from the US drug testing service drugsdata.org to gain insights into illicit drug markets over time. Also, an analysis of the emotions present in experience reports from erowid.",
     color: "var(--ctp-peach)",
   },
 ];
@@ -76,6 +76,15 @@ const projects = [
       header.addEventListener('click', () => {
         const isExpanded = header.getAttribute('aria-expanded') === 'true';
         const content = header.nextElementSibling as HTMLElement;
+        
+        // Close all other accordions
+        headers.forEach(otherHeader => {
+          if (otherHeader !== header) {
+            otherHeader.setAttribute('aria-expanded', 'false');
+            const otherContent = otherHeader.nextElementSibling as HTMLElement;
+            otherContent.style.maxHeight = '0';
+          }
+        });
         
         // Toggle current accordion
         header.setAttribute('aria-expanded', (!isExpanded).toString());
