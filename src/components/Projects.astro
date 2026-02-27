@@ -1,14 +1,15 @@
 ---
-// TODO: List some projects
 const projects = [
   {
     name: "Chess rating conversions via linear regression models",
     url: "https://chessratings.org/",
+    description: "A comprehensive tool for converting chess ratings between different rating systems using statistical linear regression models.",
     color: "var(--ctp-lavender)",
   },
   {
     name: "Tracking the purity of illicit drug markets",
     url: "https://drugstats.net/",
+    description: "Data analysis and visualization of illicit drug market trends and purity levels across different regions.",
     color: "var(--ctp-peach)",
   },
 ];
@@ -19,31 +20,75 @@ const projects = [
     <h2 class="section-title">Projects</h2>
     <div class="projects">
       {
-        projects.map((project) => (
-          <a
-            href={project.url}
-            class="project-link"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={`--project-color: ${project.color}`}
-          >
-            <span class="project-icon">◈</span>
-            <span class="project-name">{project.name}</span>
-            <svg class="project-arrow" viewBox="0 0 24 24" fill="none">
-              <path
-                d="M7 17L17 7M17 7H7M17 7V17"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </a>
+        projects.map((project, index) => (
+          <div class="project-item">
+            <button
+              class="project-header"
+              aria-expanded="false"
+              aria-controls={`project-content-${index}`}
+              style={`--project-color: ${project.color}`}
+            >
+              <span class="project-icon">◈</span>
+              <span class="project-name">{project.name}</span>
+              <svg class="project-chevron" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M6 9l6 6 6-6"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
+            <div class="project-content" id={`project-content-${index}`}>
+              <p class="project-description">{project.description}</p>
+              <a
+                href={project.url}
+                class="project-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={`--project-color: ${project.color}`}
+              >
+                Visit Project
+                <svg class="project-arrow" viewBox="0 0 24 24" fill="none">
+                  <path
+                    d="M7 17L17 7M17 7H7M17 7V17"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </a>
+            </div>
+          </div>
         ))
       }
     </div>
   </div>
 </section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const headers = document.querySelectorAll('.project-header');
+    
+    headers.forEach(header => {
+      header.addEventListener('click', () => {
+        const isExpanded = header.getAttribute('aria-expanded') === 'true';
+        const content = header.nextElementSibling as HTMLElement;
+        
+        // Toggle current accordion
+        header.setAttribute('aria-expanded', (!isExpanded).toString());
+        
+        if (!isExpanded) {
+          content.style.maxHeight = content.scrollHeight + 'px';
+        } else {
+          content.style.maxHeight = '0';
+        }
+      });
+    });
+  });
+</script>
 
 <style>
   .project {
@@ -68,73 +113,99 @@ const projects = [
   .projects {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1rem;
   }
 
-  .project-link {
+  .project-item {
+    background-color: var(--ctp-surface0);
+    border: 2px solid var(--project-color);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .project-header {
+    width: 100%;
     display: flex;
     align-items: center;
     gap: 1rem;
     padding: 1.5rem 2rem;
-    background-color: var(--ctp-surface0);
-    border: 2px solid var(--project-color);
-    border-radius: 12px;
-    text-decoration: none;
+    background-color: transparent;
+    border: none;
     color: var(--ctp-text);
+    cursor: pointer;
     transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
+    text-align: left;
   }
 
-  .project-link::before {
-    content: "";
-    position: absolute;
-    inset: -1px;
-    background-color: var(--project-color);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 0;
-  }
-
-  .project-link:hover::before {
-    transform: scaleX(1);
+  .project-header:hover {
+    background-color: var(--ctp-surface1);
   }
 
   .project-icon {
     font-size: 1.5rem;
     color: var(--project-color);
     transition: all 0.3s ease;
-    z-index: 1;
   }
 
   .project-name {
     flex: 1;
     font-size: 1.25rem;
     font-weight: 500;
-    z-index: 1;
     transition: color 0.3s ease;
   }
 
-  .project-arrow {
+  .project-chevron {
     width: 24px;
     height: 24px;
     color: var(--project-color);
+    transition: transform 0.3s ease;
+  }
+
+  .project-header[aria-expanded="true"] .project-chevron {
+    transform: rotate(180deg);
+  }
+
+  .project-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  .project-description {
+    padding: 0 2rem 1.5rem 2rem;
+    color: var(--ctp-subtext0);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 2rem 1.5rem 2rem;
+    padding: 0.75rem 1.5rem;
+    background-color: var(--project-color);
+    color: var(--ctp-base);
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 500;
     transition: all 0.3s ease;
-    z-index: 1;
   }
 
   .project-link:hover {
-    transform: translateX(8px);
+    transform: translateX(4px);
+    opacity: 0.9;
   }
 
-  .project-link:hover .project-icon,
+  .project-arrow {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease;
+  }
+
   .project-link:hover .project-arrow {
-    color: var(--ctp-base);
-  }
-
-  .project-link:hover .project-name {
-    color: var(--ctp-base);
+    transform: translate(2px, -2px);
   }
 
   @media (max-width: 600px) {
@@ -147,12 +218,23 @@ const projects = [
       margin-bottom: 2rem;
     }
 
-    .project-link {
+    .project-header {
       padding: 1.25rem 1.5rem;
     }
 
     .project-name {
       font-size: 1.1rem;
+    }
+
+    .project-description {
+      padding: 0 1.5rem 1.25rem 1.5rem;
+      font-size: 0.95rem;
+    }
+
+    .project-link {
+      margin: 0 1.5rem 1.25rem 1.5rem;
+      padding: 0.65rem 1.25rem;
+      font-size: 0.9rem;
     }
   }
 </style>
