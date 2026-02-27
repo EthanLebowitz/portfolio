@@ -136,3 +136,5 @@ dist
 
 # Netlify
 .netlify
+
+.history
