@@ -12,6 +12,24 @@ const projects = [
     description: "An aggregation of test results from the US drug testing service drugsdata.org to gain insights into illicit drug markets over time. Also, an analysis of the emotions present in experience reports from erowid.",
     color: "var(--ctp-peach)",
   },
+  {
+    name: "Reddit moderation bot",
+    url: "https://www.reddit.com/user/LittleTyrantDuckBot/",
+    description: "I run the animal tracking subreddit (r/AnimalTracking). It has grown into a large and active community with over 170k members. This bot interfaces with a large language model to help enforce the rules, and take some load off the moderation team. Using this bot, I believe I have struck a good balance between automation, and real human engagement. Without this bot we would not be able to moderate this community to the standard that we do.",
+    color: "var(--ctp-sky)",
+  },
+  {
+    name: "The great eye",
+    description: "After visiting the strange and wimsical world of the Denver Meow Wolf: Convergence Station (which I could not recommend enough), I was struck by the inspiration to make something physical. This eye was cut out of wood and laser engraved. The iris and pupil are a seperate piece of wood painted by hand, then suspended by thread which is reeled in and out by two stepper motors to control its position.",
+    content: [
+      { type: "text", value: "In this video I hadn't yet programmed in the bounds of the eye, which is why it moves so far to the side:" },
+      { type: "video", value: "src/assets/eye1.mp4" },
+      { type: "text", value: "Here it is later mounted on my camper at a music festival:" },
+      { type: "video", value: "src/assets/eye2.mp4" },
+      { type: "text", value: "This project was a great excuse to learn about microcontrollers, robotics, and to dip a toe into electrical engineering. It was also nice to make something that exists in the physical world, as the vast majority of my work lives entirely in abstraction. In a future iteration I would love to make it track faces!" }
+    ],
+    color: "var(--ctp-maroon)",
+  }
 ];
 ---
 
@@ -41,7 +59,31 @@ const projects = [
               </svg>
             </button>
             <div class="project-content" id={`project-content-${index}`}>
-              <p class="project-description">{project.description}</p>
+              {project.description && (
+                <p class="project-description">{project.description}</p>
+              )}
+              {
+                project.content && project.content.length > 0 && (
+                  <div class="project-rich-content">
+                    {project.content.map((item, itemIndex) => (
+                      item.type === "text" ? (
+                        <p class="project-text">{item.value}</p>
+                      ) : item.type === "video" ? (
+                        <div class="project-video">
+                          <video
+                            controls
+                            preload="metadata"
+                            title={`${project.name} video ${itemIndex + 1}`}
+                          >
+                            <source src={item.value} type="video/mp4" />
+                            Your browser doesn't support video playback.
+                          </video>
+                        </div>
+                      ) : null
+                    ))}
+                  </div>
+                )
+              }
               {
                 project.url && (
                   <a
@@ -192,6 +234,55 @@ const projects = [
     margin: 0;
   }
 
+  .project-rich-content {
+    padding: 0 2rem 1.5rem 2rem;
+  }
+
+  .project-text {
+    color: var(--ctp-subtext0);
+    line-height: 1.6;
+    margin: 0 0 1rem 0;
+  }
+
+  .project-rich-content .project-video {
+    margin: 1rem 0;
+  }
+
+  .project-videos {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 0 2rem 1.5rem 2rem;
+  }
+
+  .project-video {
+    position: relative;
+    padding-bottom: 75%; /* 4:3 aspect ratio */
+    height: 0;
+    overflow: hidden;
+    border-radius: 8px;
+    background-color: var(--ctp-surface1);
+  }
+
+  .project-video iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+  }
+
+  .project-video video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    object-fit: contain;
+  }
+
   .project-link {
     display: inline-flex;
     align-items: center;
@@ -242,6 +333,18 @@ const projects = [
     .project-description {
       padding: 0 1.5rem 1.25rem 1.5rem;
       font-size: 0.95rem;
+    }
+
+    .project-rich-content {
+      padding: 0 1.5rem 1.25rem 1.5rem;
+    }
+
+    .project-text {
+      font-size: 0.95rem;
+    }
+
+    .project-videos {
+      padding: 0 1.5rem 1.25rem 1.5rem;
     }
 
     .project-link {
