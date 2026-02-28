@@ -42,24 +42,28 @@ const projects = [
             </button>
             <div class="project-content" id={`project-content-${index}`}>
               <p class="project-description">{project.description}</p>
-              <a
-                href={project.url}
-                class="project-link"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={`--project-color: ${project.color}`}
-              >
-                Visit Project
-                <svg class="project-arrow" viewBox="0 0 24 24" fill="none">
-                  <path
-                    d="M7 17L17 7M17 7H7M17 7V17"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  />
-                </svg>
-              </a>
+              {
+                project.url && (
+                  <a
+                    href={project.url}
+                    class="project-link"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={`--project-color: ${project.color}`}
+                  >
+                    Visit Project
+                    <svg class="project-arrow" viewBox="0 0 24 24" fill="none">
+                      <path
+                        d="M7 17L17 7M17 7H7M17 7V17"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </a>
+                )
+              }
             </div>
           </div>
         ))
