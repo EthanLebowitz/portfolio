@@ -7,8 +7,7 @@ import { defineConfig, envField } from "astro/config";
 export default defineConfig({
   integrations: [react()],
   adapter: netlify(),
-  site: "https://EthanLebowitz.github.io",
-  base: "/portfolio",
+  site: "https://ethleb.com",
   env: {
     schema: {
       CLIENT_ID: envField.string({ context: "server", access: "secret" }),
