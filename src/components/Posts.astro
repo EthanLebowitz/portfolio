@@ -28,8 +28,12 @@ const formatDate = (date: Date) => {
           <p class="no-posts">No posts yet. Check back soon!</p>
         ) : (
           posts.map((post) => (
-            <article class="post-item">
-              <a href={`/posts/${post.slug}`} class="post-link">
+            <a
+              href={`/posts/${post.slug}`}
+              class="post-link"
+              style="--post-color: var(--ctp-mauve)"
+            >
+              <div class="post-content">
                 <div class="post-header">
                   <h3 class="post-title">{post.data.title}</h3>
                   <time class="post-date" datetime={post.data.date.toISOString()}>
@@ -44,8 +48,8 @@ const formatDate = (date: Date) => {
                     ))}
                   </div>
                 )}
-              </a>
-            </article>
+              </div>
+            </a>
           ))
         )
       }
@@ -85,23 +89,43 @@ const formatDate = (date: Date) => {
     padding: 2rem;
   }
 
-  .post-item {
-    background: var(--ctp-surface0);
-    border-radius: 12px;
-    overflow: hidden;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-
-  .post-item:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  }
-
   .post-link {
-    display: block;
-    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem 2rem;
+    background-color: var(--ctp-surface0);
+    border: 2px solid var(--post-color);
+    border-radius: 12px;
     text-decoration: none;
-    color: inherit;
+    color: var(--ctp-text);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .post-link::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    background-color: var(--post-color);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 0;
+  }
+
+  .post-link:hover::before {
+    transform: scaleX(1);
+  }
+
+  .post-link:hover {
+    transform: translateX(8px);
+  }
+
+  .post-content {
+    flex: 1;
+    z-index: 1;
   }
 
   .post-header {
@@ -116,25 +140,35 @@ const formatDate = (date: Date) => {
   .post-title {
     font-size: 1.5rem;
     font-weight: 600;
-    color: var(--ctp-mauve);
+    color: var(--post-color);
     margin: 0;
-    transition: color 0.2s ease;
+    transition: color 0.3s ease;
   }
 
   .post-link:hover .post-title {
-    color: var(--ctp-lavender);
+    color: var(--ctp-base);
   }
 
   .post-date {
     font-size: 0.9rem;
     color: var(--ctp-subtext0);
     white-space: nowrap;
+    transition: color 0.3s ease;
+  }
+
+  .post-link:hover .post-date {
+    color: var(--ctp-base);
   }
 
   .post-description {
     color: var(--ctp-text);
     line-height: 1.6;
     margin: 0 0 1rem 0;
+    transition: color 0.3s ease;
+  }
+
+  .post-link:hover .post-description {
+    color: var(--ctp-base);
   }
 
   .post-tags {
@@ -145,11 +179,21 @@ const formatDate = (date: Date) => {
 
   .tag {
     background: var(--ctp-surface1);
-    color: var(--ctp-mauve);
+    color: var(--post-color);
     padding: 0.25rem 0.75rem;
     border-radius: 999px;
     font-size: 0.85rem;
     font-weight: 500;
+    transition: all 0.3s ease;
+  }
+
+  .post-link:hover .tag {
+    background: var(--ctp-base);
+    color: var(--post-color);
+  }
+
+  .post-link:hover {
+    color: var(--ctp-base);
   }
 
   @media (max-width: 768px) {
