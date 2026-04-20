@@ -1,0 +1,227 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("posts", ({ data }) => {
+    return data.draft !== true;
+  });
+
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+const formatDate = (date: Date) => {
+  return new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  }).format(date);
+};
+---
+
+<Layout title={post.data.title}>
+  <article class="blog-post">
+    <div class="post-header">
+      <a href="/" class="back-link">← Back to Home</a>
+      <h1>{post.data.title}</h1>
+      <div class="post-meta">
+        <time datetime={post.data.date.toISOString()}>
+          {formatDate(post.data.date)}
+        </time>
+        {
+          post.data.tags && post.data.tags.length > 0 && (
+            <div class="tags">
+              {post.data.tags.map((tag) => (
+                <span class="tag">{tag}</span>
+              ))}
+            </div>
+          )
+        }
+      </div>
+      <p class="description">{post.data.description}</p>
+    </div>
+    <div class="post-content">
+      <Content />
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .blog-post {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+  }
+
+  .back-link {
+    display: inline-block;
+    color: var(--ctp-mauve);
+    text-decoration: none;
+    margin-bottom: 2rem;
+    font-weight: 500;
+    transition: color 0.2s ease;
+  }
+
+  .back-link:hover {
+    color: var(--ctp-lavender);
+  }
+
+  .post-header {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid var(--ctp-surface1);
+  }
+
+  .post-header h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--ctp-text);
+    margin: 0 0 1rem 0;
+    line-height: 1.2;
+  }
+
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+
+  time {
+    color: var(--ctp-subtext0);
+    font-size: 1rem;
+  }
+
+  .description {
+    font-size: 1.25rem;
+    color: var(--ctp-subtext1);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tag {
+    background: var(--ctp-surface1);
+    color: var(--ctp-mauve);
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  .post-content {
+    color: var(--ctp-text);
+    line-height: 1.8;
+  }
+
+  .post-content :global(h2) {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--ctp-text);
+    margin: 2.5rem 0 1rem 0;
+  }
+
+  .post-content :global(h3) {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--ctp-text);
+    margin: 2rem 0 1rem 0;
+  }
+
+  .post-content :global(p) {
+    margin: 1rem 0;
+  }
+
+  .post-content :global(a) {
+    color: var(--ctp-mauve);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ctp-mauve);
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+
+  .post-content :global(a:hover) {
+    color: var(--ctp-lavender);
+    border-color: var(--ctp-lavender);
+  }
+
+  .post-content :global(code) {
+    background: var(--ctp-surface0);
+    color: var(--ctp-mauve);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.9em;
+    font-family: "Courier New", Courier, monospace;
+  }
+
+  .post-content :global(pre) {
+    background: var(--ctp-surface0);
+    padding: 1.5rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+
+  .post-content :global(pre code) {
+    background: none;
+    padding: 0;
+  }
+
+  .post-content :global(blockquote) {
+    border-left: 4px solid var(--ctp-mauve);
+    padding-left: 1.5rem;
+    margin: 1.5rem 0;
+    color: var(--ctp-subtext1);
+    font-style: italic;
+  }
+
+  .post-content :global(ul),
+  .post-content :global(ol) {
+    padding-left: 2rem;
+    margin: 1rem 0;
+  }
+
+  .post-content :global(li) {
+    margin: 0.5rem 0;
+  }
+
+  .post-content :global(img) {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 2rem 0;
+  }
+
+  @media (max-width: 768px) {
+    .blog-post {
+      padding: 2rem 1rem;
+    }
+
+    .post-header h1 {
+      font-size: 2rem;
+    }
+
+    .description {
+      font-size: 1.1rem;
+    }
+
+    .post-content :global(h2) {
+      font-size: 1.5rem;
+    }
+
+    .post-content :global(h3) {
+      font-size: 1.25rem;
+    }
+  }
+</style>
