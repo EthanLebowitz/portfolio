@@ -199,9 +199,13 @@ const formatDate = (date: Date) => {
 
   .post-content :global(img) {
     max-width: 100%;
+    max-height: 100vh; 
+    width: auto;
     height: auto;
+    object-fit: contain;
     border-radius: 8px;
-    margin: 2rem 0;
+    margin: 2rem auto;
+    display: block;
   }
 
   @media (max-width: 768px) {
