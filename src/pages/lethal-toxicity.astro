@@ -7,10 +7,10 @@ const redirectTo = "/posts/lethal-toxicity";
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="refresh" content="0; url={redirectTo}" />
+    <meta http-equiv="refresh" content={`0; url=${redirectTo}`} />
     <link rel="canonical" href={redirectTo} />
-    <script>
-      window.location.href = "{redirectTo}";
+    <script is:inline>
+      window.location.href = "/posts/lethal-toxicity";
     </script>
     <title>Redirecting...</title>
   </head>
