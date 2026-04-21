@@ -1,5 +1,6 @@
 ---
 import profilePicture from "../assets/profile2.JPG";
+import { Image } from "astro:assets";
 
 interface Props {
   name: string;
@@ -11,7 +12,12 @@ const { name, subtitle } = Astro.props;
 
 <section class="intro">
   <div class="content">
-    <img src={profilePicture.src} alt="A close up head shot of Ethan, an implausibly handsome young man (if you are to believe his mother)" class="pfp" />
+    <Image 
+      src={profilePicture} 
+      alt="A close up head shot of Ethan, an implausibly handsome young man (if you are to believe his mother)" 
+      class="pfp"
+      loading="eager"
+      quality={50} />
     <div class="text">
       <h1>Hi, I'm {name}</h1>
       <p class="subtitle">{subtitle}</p>
