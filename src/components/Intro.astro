@@ -1,6 +1,5 @@
 ---
 import profilePicture from "../assets/profile2.JPG";
-import { getImage } from "astro:assets";
 
 interface Props {
   name: string;
@@ -8,24 +7,11 @@ interface Props {
 }
 
 const { name, subtitle } = Astro.props;
-
-const optimizedImage = await getImage({
-  src: profilePicture.src,
-  width: 180,
-  height: 180,
-  format: "webp",
-});
 ---
 
 <section class="intro">
   <div class="content">
-    <img 
-      src={optimizedImage.src} 
-      alt="A close up head shot of Ethan, an implausibly handsome young man (if you are to believe his mother)" 
-      class="pfp"
-      width={optimizedImage.attributes.width}
-      height={optimizedImage.attributes.height}
-    />
+      <img src={profilePicture.src} alt="A close up head shot of Ethan, an implausibly handsome young man (if you are to believe his mother)" class="pfp" />
     <div class="text">
       <h1>Hi, I'm {name}</h1>
       <p class="subtitle">{subtitle}</p>
