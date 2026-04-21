@@ -7,9 +7,6 @@ import { defineConfig, envField } from "astro/config";
 export default defineConfig({
   integrations: [react()],
   site: "https://ethleb.com",
-  redirects: {
-    '/lethal-toxicity': '/posts/lethal-toxicity',
-  },
   env: {
     schema: {
       CLIENT_ID: envField.string({ context: "server", access: "secret" }),
