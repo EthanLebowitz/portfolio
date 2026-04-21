@@ -8,6 +8,9 @@ export default defineConfig({
   integrations: [react()],
   adapter: netlify(),
   site: "https://ethleb.com",
+  redirects: {
+    '/lethal-toxicity': '/posts/lethal-toxicity',
+  },
   env: {
     schema: {
       CLIENT_ID: envField.string({ context: "server", access: "secret" }),

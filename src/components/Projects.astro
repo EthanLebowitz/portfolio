@@ -39,12 +39,11 @@ const projects = [
     <div class="projects">
       {
         projects.map((project, index) => (
-          <div class="project-item">
+          <div class="project-item" style={`--project-color: ${project.color}`}>
             <button
               class="project-header"
               aria-expanded="false"
               aria-controls={`project-content-${index}`}
-              style={`--project-color: ${project.color}`}
             >
               <span class="project-icon">◈</span>
               <span class="project-name">{project.name}</span>
