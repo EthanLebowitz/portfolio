@@ -10,7 +10,7 @@ interface Props {
 const { name, subtitle } = Astro.props;
 
 const optimizedImage = await getImage({
-  src: profilePicture,
+  src: profilePicture.src,
   width: 180,
   height: 180,
   format: "webp",
