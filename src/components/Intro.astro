@@ -157,47 +157,46 @@ const { name, subtitle } = Astro.props;
   document.querySelector(".pfp")?.classList.add("visible");
 
   document.addEventListener("typing-done", () => {
-  if (svg) {
-    // Distribute points evenly with random jitter (guarantees minimum spacing)
-    const baseSpacing = C / NUM_POINTS;
-    const maxJitter = baseSpacing / 2;
-    const positions = Array.from({ length: NUM_POINTS }, (_, i) => {
-      const base = (i / NUM_POINTS) * C;
-      const jitter = (Math.random() * 2 - 1) * maxJitter;
-      return (base + jitter + C) % C;
-    }).sort((a, b) => a - b);
+    const subtitle = document.querySelector(".subtitle");
+    const drawBorder = () => {
+      if (!svg) return;
+      const baseSpacing = C / NUM_POINTS;
+      const maxJitter = baseSpacing / 2;
+      const positions = Array.from({ length: NUM_POINTS }, (_, i) => {
+        const base = (i / NUM_POINTS) * C;
+        const jitter = (Math.random() * 2 - 1) * maxJitter;
+        return (base + jitter + C) % C;
+      }).sort((a, b) => a - b);
 
-    positions.forEach((pos, i) => {
-      const prev = positions[(i - 1 + NUM_POINTS) % NUM_POINTS];
-      const next = positions[(i + 1) % NUM_POINTS];
+      positions.forEach((pos, i) => {
+        const prev = positions[(i - 1 + NUM_POINTS) % NUM_POINTS];
+        const next = positions[(i + 1) % NUM_POINTS];
+        const dPrev = (pos - prev + C) % C;
+        const dNext = (next - pos + C) % C;
+        const segLen = (dPrev + dNext) / 2;
+        const startDashoffset = -pos;
+        const endDashoffset = -pos + dPrev / 2;
 
-      // Clockwise arc distances to neighbours
-      const dPrev = (pos - prev + C) % C;
-      const dNext = (next - pos + C) % C;
+        const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        circle.setAttribute("cx", "93");
+        circle.setAttribute("cy", "93");
+        circle.setAttribute("r", "90");
+        svg.appendChild(circle);
 
-      // This segment spans from the midpoint with prev to the midpoint with next
-      const segLen = (dPrev + dNext) / 2;
+        circle.animate(
+          [
+            { strokeDasharray: `0 ${C}`, strokeDashoffset: startDashoffset },
+            { strokeDasharray: `${segLen} ${C - segLen}`, strokeDashoffset: endDashoffset },
+          ],
+          { duration: 2500, easing: "cubic-bezier(0.1, 1, 0.2, 1)", fill: "forwards" }
+        );
+      });
+    };
 
-      // Trailing edge backs up dPrev/2 counter-clockwise from pos;
-      // adding dPrev/2 to dashoffset (instead of subtracting from pos) keeps
-      // the interpolation on the short path even when the segment wraps 0°.
-      const startDashoffset = -pos;
-      const endDashoffset = -pos + dPrev / 2;
-
-      const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-      circle.setAttribute("cx", "93");
-      circle.setAttribute("cy", "93");
-      circle.setAttribute("r", "90");
-      svg.appendChild(circle);
-
-      circle.animate(
-        [
-          { strokeDasharray: `0 ${C}`, strokeDashoffset: startDashoffset },
-          { strokeDasharray: `${segLen} ${C - segLen}`, strokeDashoffset: endDashoffset },
-        ],
-        { duration: 2000, easing: "cubic-bezier(0.1, 1, 0.3, 1)", fill: "forwards" }
-      );
-    });
-  }
+    if (subtitle) {
+      subtitle.addEventListener("transitionend", drawBorder, { once: true });
+    } else {
+      drawBorder();
+    }
   });
 </script>
