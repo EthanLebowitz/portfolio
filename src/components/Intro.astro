@@ -13,9 +13,7 @@ const { name, subtitle } = Astro.props;
   <div class="content">
       <div class="pfp-wrapper">
         <img src={profilePicture.src} alt="A close up head shot of Ethan, an implausibly handsome young man (if you are to believe his mother)" class="pfp" fetchpriority="high" />
-        <svg class="pfp-border" viewBox="0 0 186 186" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="93" cy="93" r="90" />
-        </svg>
+        <svg class="pfp-border" viewBox="0 0 186 186" xmlns="http://www.w3.org/2000/svg"></svg>
       </div>
     <div class="text">
       <h1 class="typing">Hi, I'm {name}</h1>
@@ -51,7 +49,7 @@ const { name, subtitle } = Astro.props;
     transform: scale(1.05);
   }
 
-  .pfp-wrapper:hover .pfp-border circle {
+  .pfp-wrapper:hover .pfp-border :global(circle) {
     stroke: var(--ctp-pink);
   }
 
@@ -78,31 +76,14 @@ const { name, subtitle } = Astro.props;
     pointer-events: none;
   }
 
-  @keyframes pfp-border-draw {
-    from {
-      stroke-dasharray: 0 565.49;
-      stroke-dashoffset: 0;
-    }
-    to {
-      stroke-dasharray: 565.49 0;
-      stroke-dashoffset: -141.37;
-    }
-  }
-
-  .pfp-border circle {
+  .pfp-border :global(circle) {
     fill: none;
     stroke: var(--ctp-lavender);
     stroke-width: 3;
-    stroke-dasharray: 0 565.49;
-    stroke-dashoffset: 0;
     transform-box: fill-box;
     transform-origin: center;
     transform: rotate(-90deg);
     transition: stroke 0.3s ease;
-  }
-
-  .pfp-border circle.visible {
-    animation: pfp-border-draw 0.8s ease-out forwards;
   }
 
   .text {
@@ -167,6 +148,54 @@ const { name, subtitle } = Astro.props;
     });
   }
 
+  // --- pfp border animation ---
+  const NUM_POINTS = 3; // easy to change
+
+  const C = 2 * Math.PI * 90;
+  const svg = document.querySelector(".pfp-border");
+
   document.querySelector(".pfp")?.classList.add("visible");
-  document.querySelector(".pfp-border circle")?.classList.add("visible");
+
+  if (svg) {
+    // Distribute points evenly with random jitter (guarantees minimum spacing)
+    const baseSpacing = C / NUM_POINTS;
+    const maxJitter = baseSpacing / 2;
+    const positions = Array.from({ length: NUM_POINTS }, (_, i) => {
+      const base = (i / NUM_POINTS) * C;
+      const jitter = (Math.random() * 2 - 1) * maxJitter;
+      return (base + jitter + C) % C;
+    }).sort((a, b) => a - b);
+
+    positions.forEach((pos, i) => {
+      const prev = positions[(i - 1 + NUM_POINTS) % NUM_POINTS];
+      const next = positions[(i + 1) % NUM_POINTS];
+
+      // Clockwise arc distances to neighbours
+      const dPrev = (pos - prev + C) % C;
+      const dNext = (next - pos + C) % C;
+
+      // This segment spans from the midpoint with prev to the midpoint with next
+      const segLen = (dPrev + dNext) / 2;
+
+      // Trailing edge backs up dPrev/2 counter-clockwise from pos;
+      // adding dPrev/2 to dashoffset (instead of subtracting from pos) keeps
+      // the interpolation on the short path even when the segment wraps 0°.
+      const startDashoffset = -pos;
+      const endDashoffset = -pos + dPrev / 2;
+
+      const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+      circle.setAttribute("cx", "93");
+      circle.setAttribute("cy", "93");
+      circle.setAttribute("r", "90");
+      svg.appendChild(circle);
+
+      circle.animate(
+        [
+          { strokeDasharray: `0 ${C}`, strokeDashoffset: startDashoffset },
+          { strokeDasharray: `${segLen} ${C - segLen}`, strokeDashoffset: endDashoffset },
+        ],
+        { duration: 500, easing: "ease-out", fill: "forwards" }
+      );
+    });
+  }
 </script>
