@@ -30,9 +30,10 @@ const waveColor = colorMap[color];
 // Generate smooth wave pattern
 const generateWavePath = () => {
   let path = "M 0,20";
-  const circleWidth = 10 * size;
+  const circleWidth = 15 * size;
   const amplitude = 12 * size;
-  const circles = 120;
+  const circles = 80;
+  // keep circles * circleWidth the same value (960 with size=0.8) to preserve the seamless loop
 
   for (let i = 0; i < circles; i++) {
     const x = i * circleWidth;
