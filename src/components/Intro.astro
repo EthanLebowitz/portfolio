@@ -11,7 +11,12 @@ const { name, subtitle } = Astro.props;
 
 <section class="intro">
   <div class="content">
-      <img src={profilePicture.src} alt="A close up head shot of Ethan, an implausibly handsome young man (if you are to believe his mother)" class="pfp" fetchpriority="high" />
+      <div class="pfp-wrapper">
+        <img src={profilePicture.src} alt="A close up head shot of Ethan, an implausibly handsome young man (if you are to believe his mother)" class="pfp" fetchpriority="high" />
+        <svg class="pfp-border" viewBox="0 0 186 186" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="93" cy="93" r="90" />
+        </svg>
+      </div>
     <div class="text">
       <h1 class="typing">Hi, I'm {name}</h1>
       <p class="subtitle" data-animate>{subtitle}</p>
@@ -34,19 +39,70 @@ const { name, subtitle } = Astro.props;
     gap: 2rem;
   }
 
+  .pfp-wrapper {
+    position: relative;
+    width: 186px;
+    height: 186px;
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+  }
+
+  .pfp-wrapper:hover {
+    transform: scale(1.05);
+  }
+
+  .pfp-wrapper:hover .pfp-border circle {
+    stroke: var(--ctp-pink);
+  }
+
   .pfp {
+    position: absolute;
+    top: 3px;
+    left: 3px;
     width: 180px;
     height: 180px;
     border-radius: 50%;
-    border: 3px solid var(--ctp-lavender);
-    transition:
-      transform 0.3s ease,
-      border-color 0.3s ease;
+    opacity: 0;
+    transition: opacity 0.8s ease;
   }
 
-  .pfp:hover {
-    transform: scale(1.05);
-    border-color: var(--ctp-pink);
+  .pfp.visible {
+    opacity: 1;
+  }
+
+  .pfp-border {
+    position: absolute;
+    inset: 0;
+    width: 186px;
+    height: 186px;
+    pointer-events: none;
+  }
+
+  @keyframes pfp-border-draw {
+    from {
+      stroke-dasharray: 0 565.49;
+      stroke-dashoffset: 0;
+    }
+    to {
+      stroke-dasharray: 565.49 0;
+      stroke-dashoffset: -141.37;
+    }
+  }
+
+  .pfp-border circle {
+    fill: none;
+    stroke: var(--ctp-lavender);
+    stroke-width: 3;
+    stroke-dasharray: 0 565.49;
+    stroke-dashoffset: 0;
+    transform-box: fill-box;
+    transform-origin: center;
+    transform: rotate(-90deg);
+    transition: stroke 0.3s ease;
+  }
+
+  .pfp-border circle.visible {
+    animation: pfp-border-draw 0.8s ease-out forwards;
   }
 
   .text {
@@ -89,11 +145,6 @@ const { name, subtitle } = Astro.props;
       text-align: center;
     }
 
-    .pfp {
-      width: 180px;
-      height: 180px;
-    }
-
     h1 {
       font-size: 1.5rem;
     }
@@ -115,4 +166,7 @@ const { name, subtitle } = Astro.props;
       document.dispatchEvent(new CustomEvent("typing-done"));
     });
   }
+
+  document.querySelector(".pfp")?.classList.add("visible");
+  document.querySelector(".pfp-border circle")?.classList.add("visible");
 </script>
