@@ -13,7 +13,7 @@ const { name, subtitle } = Astro.props;
   <div class="content">
       <img src={profilePicture.src} alt="A close up head shot of Ethan, an implausibly handsome young man (if you are to believe his mother)" class="pfp" />
     <div class="text">
-      <h1>Hi, I'm {name}</h1>
+      <h1 class="typing">Hi, I'm {name}</h1>
       <p class="subtitle">{subtitle}</p>
     </div>
   </div>
@@ -60,6 +60,16 @@ const { name, subtitle } = Astro.props;
     margin-bottom: 0.5rem;
   }
 
+  h1.typing {
+    overflow: hidden;
+    white-space: nowrap;
+    width: 0;
+  }
+
+  @keyframes typing {
+    to { width: var(--typing-width); }
+  }
+
   .subtitle {
     font-size: 1rem;
     color: var(--ctp-subtext0);
@@ -84,5 +94,19 @@ const { name, subtitle } = Astro.props;
     h1 {
       font-size: 1.5rem;
     }
+
+    h1.typing {
+      margin-inline: auto;
+    }
   }
 </style>
+
+<script>
+  const h1 = document.querySelector("h1.typing") as HTMLElement;
+  if (h1) {
+    const len = h1.textContent!.length;
+    const duration = Math.max(0.8, len * 0.07);
+    h1.style.setProperty("--typing-width", `${len}ch`);
+    h1.style.animation = `typing ${duration}s steps(${len}, end) forwards`;
+  }
+</script>
