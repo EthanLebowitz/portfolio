@@ -1,10 +1,12 @@
 ---
 interface Props {
   title: string;
+  description?: string;
 }
 
-const { title } = Astro.props;
-const GA_MEASUREMENT_ID = "G-X0NCK54HYT"; 
+const { title, description } = Astro.props;
+const GA_MEASUREMENT_ID = "G-X0NCK54HYT";
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 
 <!doctype html>
@@ -15,7 +17,20 @@ const GA_MEASUREMENT_ID = "G-X0NCK54HYT";
     <link rel="icon" type="image/png" href="/favicon.png" />
     <meta name="generator" content={Astro.generator} />
     <meta name="darkreader-lock" />
+    <link rel="canonical" href={canonicalURL} />
     <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    {description && <meta property="og:description" content={description} />}
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    {description && <meta name="twitter:description" content={description} />}
     <Fragment set:html={`<style>[data-animate]{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}[data-animate].visible{opacity:1;transform:translateY(0)}</style>`} />
     
     <!-- Google Analytics -->

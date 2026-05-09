@@ -1,11 +1,12 @@
 // @ts-check
 import netlify from "@astrojs/netlify";
 import react from "@astrojs/react";
+import sitemap from "@astrojs/sitemap";
 import { defineConfig, envField } from "astro/config";
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [react()],
+  integrations: [react(), sitemap()],
   site: "https://ethleb.com",
   env: {
     schema: {
