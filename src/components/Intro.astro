@@ -149,13 +149,14 @@ const { name, subtitle } = Astro.props;
   }
 
   // --- pfp border animation ---
-  const NUM_POINTS = 3; // easy to change
+  const NUM_POINTS = 5; // easy to change
 
   const C = 2 * Math.PI * 90;
   const svg = document.querySelector(".pfp-border");
 
   document.querySelector(".pfp")?.classList.add("visible");
 
+  document.addEventListener("typing-done", () => {
   if (svg) {
     // Distribute points evenly with random jitter (guarantees minimum spacing)
     const baseSpacing = C / NUM_POINTS;
@@ -194,8 +195,9 @@ const { name, subtitle } = Astro.props;
           { strokeDasharray: `0 ${C}`, strokeDashoffset: startDashoffset },
           { strokeDasharray: `${segLen} ${C - segLen}`, strokeDashoffset: endDashoffset },
         ],
-        { duration: 500, easing: "ease-out", fill: "forwards" }
+        { duration: 2000, easing: "cubic-bezier(0.1, 1, 0.3, 1)", fill: "forwards" }
       );
     });
   }
+  });
 </script>
