@@ -16,6 +16,7 @@ const GA_MEASUREMENT_ID = "G-X0NCK54HYT";
     <meta name="generator" content={Astro.generator} />
     <meta name="darkreader-lock" />
     <title>{title}</title>
+    <Fragment set:html={`<style>[data-animate]{opacity:0;transform:translateY(16px);transition:opacity .6s ease,transform .6s ease}[data-animate].visible{opacity:1;transform:translateY(0)}</style>`} />
     
     <!-- Google Analytics -->
     <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}></script>
@@ -78,4 +79,14 @@ const GA_MEASUREMENT_ID = "G-X0NCK54HYT";
       Cantarell, sans-serif;
     line-height: 1.6;
   }
+
 </style>
+
+<script>
+  document.addEventListener('typing-done', () => {
+    const elements = document.querySelectorAll('[data-animate]');
+    elements.forEach((el, i) => {
+      setTimeout(() => el.classList.add('visible'), i * 200);
+    });
+  });
+</script>

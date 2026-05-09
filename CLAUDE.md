@@ -38,3 +38,9 @@ Personal site at ethleb.com built with **Astro 5** + **React 19**. Deployed to N
 - Per-component color overrides via local CSS vars (e.g., `--post-color`, `--project-color`)
 
 **Formatting:** Prettier with `prettier-plugin-astro` and `@trivago/prettier-plugin-sort-imports`. Import order: third-party → internal → models → utils → components.
+
+**Startup animations:**
+- After the h1 typing animation finishes, it dispatches a `typing-done` custom event on `document`
+- `Layout.astro` listens for this and fade-up animates all `[data-animate]` elements in DOM order, staggered 200ms apart
+- To give any element a startup fade-up, add `data-animate` to it — no other changes needed
+- The subtitle in `Intro.astro` uses `.visible { opacity: 0.8 !important }` to preserve its dimmed styling

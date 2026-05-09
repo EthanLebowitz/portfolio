@@ -14,7 +14,7 @@ const { name, subtitle } = Astro.props;
       <img src={profilePicture.src} alt="A close up head shot of Ethan, an implausibly handsome young man (if you are to believe his mother)" class="pfp" fetchpriority="high" />
     <div class="text">
       <h1 class="typing">Hi, I'm {name}</h1>
-      <p class="subtitle">{subtitle}</p>
+      <p class="subtitle" data-animate>{subtitle}</p>
     </div>
   </div>
 </section>
@@ -73,7 +73,10 @@ const { name, subtitle } = Astro.props;
   .subtitle {
     font-size: 1rem;
     color: var(--ctp-subtext0);
-    opacity: 0.8;
+  }
+
+  .subtitle.visible {
+    opacity: 0.8 !important;
   }
 
   @media (max-width: 600px) {
@@ -108,5 +111,8 @@ const { name, subtitle } = Astro.props;
     const duration = Math.max(0.8, len * 0.07);
     h1.style.setProperty("--typing-width", `${len}ch`);
     h1.style.animation = `typing ${duration}s steps(${len}, end) forwards`;
+    h1.addEventListener("animationend", () => {
+      document.dispatchEvent(new CustomEvent("typing-done"));
+    });
   }
 </script>
