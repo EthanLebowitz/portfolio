@@ -101,7 +101,8 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
   document.addEventListener('typing-done', () => {
     const elements = document.querySelectorAll('[data-animate]');
     elements.forEach((el, i) => {
-      setTimeout(() => el.classList.add('visible'), i * 200);
+      // setTimeout(() => el.classList.add('visible'), i * 200);
+      setTimeout(() => el.classList.add('visible'), Math.min(i,1) * 200);
     });
   });
 </script>
