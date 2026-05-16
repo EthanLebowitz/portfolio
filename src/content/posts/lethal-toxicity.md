@@ -6,7 +6,7 @@ tags: ["data visualization"]
 draft: false
 ---
 
-![test](/images/lethal-toxicity-vis.png)
+![Bar chart of the lethal toxicity of substances](/images/lethal-toxicity-vis.png)
 
 ## Discussion
 
