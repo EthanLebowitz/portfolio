@@ -6,7 +6,7 @@ tags: ["data visualization"]
 draft: false
 ---
 
-![Dot-plot of the harms incurred by birding](/images/birding-costs.png)
+![Dot-plot of the harms incurred by birding](/images/birding_costs.png)
 
 ## Chart context
 
