@@ -1,0 +1,210 @@
+---
+// TODO: Replace YOUR_USERNAME with your Buttondown username after signing up at buttondown.com
+const BUTTONDOWN_USERNAME = "ethleb";
+---
+
+<section class="subscribe">
+  <div class="content" data-animate>
+    <p class="section-subtitle">
+      Get notified for new posts. No spam, unsubscribe anytime.
+    </p>
+    <form
+      action={`https://buttondown.com/api/emails/embed-subscribe/${BUTTONDOWN_USERNAME}`}
+      method="post"
+      target="popupwindow"
+      onsubmit="window.open('https://buttondown.com/' + this.action.split('/').pop(), 'popupwindow')"
+      class="subscribe-form"
+    >
+      <div class="input-row">
+        <div class="input-wrapper" id="email-wrapper">
+          <input
+            type="email"
+            name="email"
+            id="bd-email"
+            placeholder="your@email.com"
+            required
+            class="email-input"
+            aria-label="Email address"
+          />
+        </div>
+        <div class="btn-wrapper" id="btn-wrapper">
+          <button type="submit" class="subscribe-btn" id="subscribe-btn" disabled>Subscribe</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
+
+<style>
+  .subscribe {
+    padding: 0rem 2rem;
+    background: var(--ctp-base);
+  }
+
+  .content {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .section-title {
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--ctp-text);
+    margin-bottom: 1rem;
+  }
+
+  .section-subtitle {
+    color: var(--ctp-subtext0);
+    font-weight: bold;
+    font-size: 1.05rem;
+    margin-bottom: 1rem;
+    line-height: 1.6;
+  }
+
+  .subscribe-form {
+    width: 100%;
+  }
+
+  .input-row {
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  .input-wrapper {
+    flex: 1;
+    position: relative;
+    border-radius: 8px;
+    padding: 2px;
+    /* background-color: var(--ctp-peach); */
+    overflow: hidden;
+  }
+
+  .input-wrapper::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: var(--ctp-teal);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 0;
+  }
+
+  .input-wrapper.valid::before {
+    transform: scaleX(1);
+  }
+
+  .email-input {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    padding: 0.75rem 1.25rem;
+    background-color: var(--ctp-surface0);
+    border: none;
+    border-radius: 6px;
+    color: var(--ctp-text);
+    font-size: 1rem;
+    outline: none;
+    font-family: inherit;
+  }
+
+  .email-input::placeholder {
+    color: var(--ctp-overlay1);
+  }
+
+  .btn-wrapper {
+    position: relative;
+    border-radius: 8px;
+    padding: 2px;
+    background-color: var(--ctp-surface0);
+    overflow: hidden;
+  }
+
+  .btn-wrapper::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-color: var(--ctp-teal);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 0;
+  }
+
+  .btn-wrapper.active::before {
+    transform: scaleX(1);
+  }
+
+  .subscribe-btn {
+    position: relative;
+    z-index: 1;
+    padding: 0.75rem 1.75rem;
+    background-color: var(--ctp-surface0);
+    color: var(--ctp-teal);
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 600;
+    white-space: nowrap;
+    font-family: inherit;
+    width: 100%;
+    cursor: pointer;
+  }
+
+  .subscribe-btn:disabled {
+    cursor: not-allowed;
+  }
+
+  .btn-wrapper.dimmed {
+    opacity: 0.4;
+  }
+
+  @media (max-width: 600px) {
+    .subscribe {
+      padding: 3rem 1rem;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+    }
+
+    .input-row {
+      flex-direction: column;
+    }
+
+    .subscribe-btn {
+      width: 100%;
+    }
+  }
+</style>
+
+<script>
+  const emailInput = document.getElementById("bd-email") as HTMLInputElement;
+  const inputWrapper = document.getElementById("email-wrapper")!;
+  const btnWrapper = document.getElementById("btn-wrapper")!;
+  const btn = document.getElementById("subscribe-btn") as HTMLButtonElement;
+
+  const isValidEmail = (value: string) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value);
+
+  let pendingTimer: ReturnType<typeof setTimeout>;
+
+  emailInput.addEventListener("input", () => {
+    const valid = isValidEmail(emailInput.value);
+    clearTimeout(pendingTimer);
+    if (valid) {
+      btnWrapper.classList.remove("dimmed");
+      inputWrapper.classList.add("valid");
+      btn.disabled = false;
+      pendingTimer = setTimeout(() => btnWrapper.classList.add("active"), 400);
+    } else {
+      btnWrapper.classList.remove("active");
+      btn.disabled = true;
+      pendingTimer = setTimeout(() => {
+        btnWrapper.classList.add("dimmed");
+        inputWrapper.classList.remove("valid");
+      }, 400);
+    }
+  });
+</script>

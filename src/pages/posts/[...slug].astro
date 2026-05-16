@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
+import Subscribe from "../../components/Subscribe.astro";
 
 export async function getStaticPaths() {
   const posts = await getCollection("posts", ({ data }) => {
@@ -49,6 +50,9 @@ const formatDate = (date: Date) => {
     </div>
     <div class="post-content">
       <Content />
+    </div>
+    <div class="post-footer">
+      <Subscribe />
     </div>
   </article>
 </Layout>
@@ -120,6 +124,12 @@ const formatDate = (date: Date) => {
     border-radius: 999px;
     font-size: 0.85rem;
     font-weight: 500;
+  }
+
+  .post-footer {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 2px solid var(--ctp-surface1);
   }
 
   .post-content {

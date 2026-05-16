@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import Intro from "../components/Intro.astro";
 import Projects from "../components/Projects.astro";
 import Posts from "../components/Posts.astro";
+import Subscribe from "../components/Subscribe.astro";
 import WaveDivider from "../components/WaveDivider.astro";
 import Socials from "../components/Socials.astro";
 
@@ -26,7 +27,8 @@ const variables = {
     <WaveDivider color="flamingo" speed={100} size={0.8} direction="right" />
 
     <Posts />
-    <WaveDivider color="mauve" speed={100} size={0.8} direction="left" />
+    <Subscribe />
+    <WaveDivider color="blue" speed={100} size={0.8} direction="left" />
 
     <Socials />
   </main>

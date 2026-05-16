@@ -98,11 +98,16 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 </style>
 
 <script>
-  document.addEventListener('typing-done', () => {
+  const animateAll = () => {
     const elements = document.querySelectorAll('[data-animate]');
     elements.forEach((el, i) => {
-      // setTimeout(() => el.classList.add('visible'), i * 200);
-      setTimeout(() => el.classList.add('visible'), Math.min(i,1) * 200);
+      setTimeout(() => el.classList.add('visible'), Math.min(i, 1) * 200);
     });
-  });
+  };
+
+  if (document.querySelector('h1.typing')) {
+    document.addEventListener('typing-done', animateAll);
+  } else {
+    animateAll();
+  }
 </script>
