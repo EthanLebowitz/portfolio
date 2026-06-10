@@ -1,5 +1,5 @@
 ---
-title: "The Birders Burden (Birding and its Many Dangers)"
+title: "The Birder's Burden (Birding and its Many Dangers)"
 description: "A visualization of the harms experienced by extreme birders."
 date: 2026-05-12
 tags: ["data visualization"]
