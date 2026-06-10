@@ -98,6 +98,14 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 </style>
 
 <script>
+  const GA_PARAMS = new Set(['utm_source','utm_medium','utm_campaign','utm_term','utm_content','utm_id','gclid','gclsrc','fbclid','msclkid','dclid']);
+  const url = new URL(location.href);
+  let stripped = false;
+  for (const key of [...url.searchParams.keys()]) {
+    if (GA_PARAMS.has(key)) { url.searchParams.delete(key); stripped = true; }
+  }
+  if (stripped) history.replaceState(null, '', url);
+
   const animateAll = () => {
     const elements = document.querySelectorAll('[data-animate]');
     elements.forEach((el, i) => {
