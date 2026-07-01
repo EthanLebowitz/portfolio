@@ -184,7 +184,7 @@ Males have consistently higher suicide rates compared to females starting in the
 
 ![Homicide rates per sex by age](/images/mortality/male-vs-female-homicide-rates.png)
 
-In contrast to the suicide data, the homicide death rate among males drop steadily after a peak age around 20 years, and even briefly drops below the female homicide death rate late in life (though here the values are low, the sample size small, and the data noisy). 
+In contrast to the suicide data, the homicide death rate among males drops steadily after a peak age around 20 years, and even briefly drops below the female homicide death rate late in life (though here the values are low, the sample size small, and the data noisy). 
 
 ## Conclusion
 
