@@ -207,6 +207,49 @@ const formatDate = (date: Date) => {
     margin: 0.15rem 0;
   }
 
+  .post-content :global(.panel) {
+    border-radius: 10px;
+    padding: 0.9rem 1.25rem;
+    margin: 1.5rem 0;
+    border: 1px solid;
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .post-content :global(.panel p) {
+    margin: 0;
+  }
+
+  .post-content :global(.panel-warning) {
+    background: color-mix(in srgb, var(--ctp-red) 12%, transparent);
+    border-color: var(--ctp-red);
+    color: var(--ctp-red);
+  }
+
+  .post-content :global(.panel-caution) {
+    background: color-mix(in srgb, var(--ctp-peach) 12%, transparent);
+    border-color: var(--ctp-peach);
+    color: var(--ctp-peach);
+  }
+
+  .post-content :global(.panel-note) {
+    background: color-mix(in srgb, var(--ctp-blue) 12%, transparent);
+    border-color: var(--ctp-blue);
+    color: var(--ctp-blue);
+  }
+
+  .post-content :global(.panel-tip) {
+    background: color-mix(in srgb, var(--ctp-green) 12%, transparent);
+    border-color: var(--ctp-green);
+    color: var(--ctp-green);
+  }
+
+  .post-content :global(.panel-info) {
+    background: color-mix(in srgb, var(--ctp-sky) 12%, transparent);
+    border-color: var(--ctp-sky);
+    color: var(--ctp-sky);
+  }
+
   .post-content :global(img) {
     max-width: 100%;
     max-height: 90vh; 

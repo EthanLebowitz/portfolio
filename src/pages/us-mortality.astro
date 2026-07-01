@@ -1,0 +1,22 @@
+---
+// This page redirects to /posts/us-mortality
+const redirectTo = "/posts/us-mortality";
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="refresh" content={`0; url=${redirectTo}`} />
+    <link rel="canonical" href={redirectTo} />
+    <script is:inline>
+      window.location.href = "/posts/us-mortality";
+    </script>
+    <title>Redirecting...</title>
+  </head>
+  <body>
+    <p>
+      Redirecting to <a href={redirectTo}>Understanding Death in the US</a>...
+    </p>
+  </body>
+</html>
