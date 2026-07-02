@@ -6,7 +6,7 @@ tags: ["data visualization", "public health"]
 draft: false
 ---
 
-<div class="panel panel-warning"><b>Warning:</b> This post is concerned with death. It includes discussions of suicide and infant mortality, and is generally all around very morbid.</div>
+<div class="panel panel-warning"><b>Warning:</b> This post is concerned with death. It includes discussions of suicide and infant mortality, and is generally quite morbid.</div>
 
 ![Stacked bar chart of causes of death per capita, per age](/images/mortality/causes-of-death-by-age-sub-60.png)
 
@@ -24,15 +24,15 @@ perhaps more true than ever.”
 
 ## Context
 
-My motivation for this project was to get practice exploring a large, messy government dataset, and communicating the results in clear visualizations, which are both skills I care about improving. Since I live in the US, and since I'm interested in public health, US mortality data seemed like a good fit. We'll be building up to making the headline chart above, and then continue on to answer a handful of other questions I have about what the statistical shape of death is in the US.
+My motivation for this project was to get practice exploring a large, messy government dataset, and communicating the results in clear visualizations, which are both skills I care about improving. Since I live in the US, and since I'm interested in public health, US mortality data seemed like a good fit. I'll be building up to making the headline chart above, and then continue on to answer a handful of other questions I have about what the statistical shape of death is in the US.
 
 ## About the data
 
-Each year the National Vital Statistics System (NVSS) releases a dataset containing information about every recorded death in the US that year. The NVSS is run by the National Center for Health Statistics (NCHS), which is a division of the Centers for Disease Control and Prevention (CDC), which is in turn part of the U.S. Department of Health and Human Services (how deep does it go?). The mortality datasets are finalized approximately one year after the target year, and some time after that the National Bureau of Economic Research (NBER) publishes a CSV of the data which I have found much easier to work with. I will be working with the 2024 [Multiple Cause of Death Data](https://www.nber.org/research/data/mortality-data-vital-statistics-nchs-multiple-cause-death-data), the most recent year there is finalized data for. To reduce complexity I have not included the US territories as part of this analysis, which would require a separate dataset. Also, I have constrained the analysis to residents to match CDC methodology.
+Each year the National Vital Statistics System (NVSS) releases a dataset containing information about every recorded death in the US that year. The NVSS is run by the National Center for Health Statistics (NCHS), which is a division of the Centers for Disease Control and Prevention (CDC), which is in turn part of the U.S. Department of Health and Human Services (how deep does it go?). The mortality datasets are finalized approximately one year after the target year, and some time after that the National Bureau of Economic Research (NBER) publishes a CSV of the data which I have found much easier to work with. I will be working with the 2024 [Multiple Cause of Death Data](https://www.nber.org/research/data/mortality-data-vital-statistics-nchs-multiple-cause-death-data), the most recent year there is finalized data for. To reduce complexity I have not included the US territories as part of this analysis, which would require a separate dataset. Also, I have constrained the analysis to US residents to match CDC methodology.
 
 I am also using a couple other supplementary datasets. For 2024 population by age I am using the 2024 data from [Annual Estimates of the Resident Population by Single Year of Age and Sex for the United States: April 1, 2020 to July 1, 2025](https://www.census.gov/data/tables/time-series/demo/popest/2020s-national-detail.html) from census.gov, and for historical life expectancy data I am using the [Human Mortality Database](https://mortality.org/Country/Country?cntr=USA).
 
-Throughout this analysis I convert some NCHS labels to simplified and/or shortened one to make them more comprehensible and fit them into the charts better. For example, I change "Nephritis, nephrotic syndrome and nephrosis" to "Kidney disease", and "Congenital malformations, deformations and chromosomal abnormalities" to "Birth defects". I've done my best to do these conversions without loss in accuracy. You can find the full list of these conversions in this [label mappings file](/misc/label_mappings.py).
+Throughout this analysis I shorten some NCHS labels to make them more comprehensible and fit them into the charts better. For example, I change "Nephritis, nephrotic syndrome and nephrosis" to "Kidney disease", and "Congenital malformations, deformations and chromosomal abnormalities" to "Birth defects". I've done my best to do these conversions without loss in accuracy. You can find the full list of these conversions in this [label mappings file](/misc/label_mappings.py).
 
 The analysis and visualizations were done in Python with the pandas and matplotlib libraries, and color blindness accessibility was checked with the wonderful [let's get color blind firefox extension](https://chromewebstore.google.com/detail/lets-get-color-blind/bkdgdianpkfahpkmphgehigalpighjck).
 
@@ -62,7 +62,7 @@ So, we can see that the spike in deaths at 77 and 81 are caused by fluctuations 
 
 ![US mortality rate by age for ages under 61](/images/mortality/mortality-rate-by-age-sub-60.png)
 
-We'll take a closer look at infant mortality later in this article.
+We'll take a closer look at infant mortality later in this analysis.
 
 ## Life Expectancy
 
@@ -150,7 +150,7 @@ Let's take a closer look at the poisoning deaths. For this chart I have included
 
 ![Deaths by accidental poisoning type](/images/mortality/top-poisonings.png)
 
-It's no surprise to see synthetic narcotics (which includes fentanyl and its analogues) at the top. It should be noted that a single death may have multiple substances listed in the mortality data. I hope to do a much deeper dive into drug related mortality, morbidity, and usage statistics in a future project.
+It's no surprise to see synthetic opioids (which includes fentanyl and its analogues) at the top. It should be noted that a single death may have multiple substances listed in the mortality data. I hope to do a much deeper dive into drug related mortality, morbidity, and usage statistics in a future project.
 
 ## Cancer
 
@@ -170,7 +170,7 @@ As it turns out, breast cancer deaths are very lethal in this age group, and the
 
 We'll end this analysis with a very brief look at violent death (suicide and homicide). I'm curious how rates of violent death vary across age groups. I hear a lot of dialogue about mental illness among teens, so my expectation going into this was that rates of violent death will be elevated for teens and young adults.
 
-This chart shows the distribution of violent deaths across the age of the population. I am once again dividing by the population of each age group and multiplying by 100,000 to get the rate of death per 100,000 people. The solid line has been smoothed to emphasize the overall distribution of the data. The faint dotted lines are the raw unsmoothed values.
+This chart shows the distribution of violent deaths across the age of the population. I am once again dividing by the population of each age group and multiplying by 100,000 to get the rate of death per 100,000 people. The solid lines have been smoothed to emphasize the overall distribution of the data. The faint dotted lines are the raw unsmoothed values.
 
 ![Suicides and homicide deaths per age group](/images/mortality/violent-death-rate-per-age.png)
 
