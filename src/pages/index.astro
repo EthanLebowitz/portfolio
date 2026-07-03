@@ -13,12 +13,21 @@ const variables = {
   subtitles:
     "I'm a writer and engineer, with interests spanning from data analysis and visualization to music processing.",
 };
+
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Ethan Lebowitz",
+  url: "https://ethleb.com",
+  sameAs: ["https://github.com/EthanLebowitz"],
+};
 ---
 
 <Layout
   title="Ethan Lebowitz"
   description={variables.subtitles}
 >
+  <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
   <main>
     <Intro name={variables.name} subtitle={variables.subtitles} />
     <WaveDivider color="rosewater" speed={100} size={0.8} direction="left" />
