@@ -178,13 +178,13 @@ To my surprise, suicide rates begin rising during teen years but then remain ele
 
 Violent death rates turn out to be extremely sex dependent. Here is the suicide rate split by sex:
 
-![Suicide rates per sex by age](/images/mortality/male-vs-female-suicide-rates.png)
+![Suicide rates per sex by age](/images/mortality/male-vs-female-suicide-rates-sex-denominator.png)
 
-Males have consistently higher suicide rates compared to females starting in the teenage years, and the increased male suicide rates in late life is exclusively responsible for the spike in total suicide rates for that age group. In 2024, four out of every five suicides were male. The homicide data tells a nearly identical story, with males comprising four out of every five victims of homicide:
+Males have consistently higher suicide rates compared to females starting in the teenage years, and the increased male suicide rates in late life is exclusively responsible for the spike in total suicide rates for that age group. The size of the spike in male suicide rates in the late 80s and early 90s is startling and deserves more research, but that will have to wait for a future project. In 2024, four out of every five suicides were male. The homicide data tells a nearly identical story, with males comprising four out of every five victims of homicide:
 
-![Homicide rates per sex by age](/images/mortality/male-vs-female-homicide-rates.png)
+![Homicide rates per sex by age](/images/mortality/male-vs-female-homicide-rates-sex-denominator.png)
 
-In contrast to the suicide data, the homicide death rate among males drops steadily after a peak age around 20 years, and even briefly drops below the female homicide death rate late in life (though here the values are low, the sample size small, and the data noisy). 
+In contrast to the suicide data, the homicide death rate among males drops steadily after a peak age around 20 years, and eventually even matches the female homicide death rate late in life. 
 
 ## Conclusion
 
